@@ -9,10 +9,10 @@ may be not the best choice in many cases unless your RAM is very-very
 limited. This package allows to teach Emacs which buffers we want to kill
 and which ones we prefer to bury alive.
 
-Even when we really want to kill a buffer, not all buffers would like to die
-the same way, though. The package allows to specify *how* to kill various
-kinds of buffers. This may be especially useful when you're working with
-some buffer that has an associated process, for example.
+When we really want to kill a buffer, it turns out that not all buffers
+would like to die the same way. The package allows to specify *how* to kill
+various kinds of buffers. This may be especially useful when you're working
+with some buffer that has an associated process, for example.
 
 But sometimes you may want to get rid of most buffers and bring Emacs to
 some more or less virgin state. You probably don't want to kill scratch
