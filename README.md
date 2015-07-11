@@ -1,6 +1,7 @@
 # Kill or Bury Alive
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
+[![Build Status](https://travis-ci.org/mrkkrp/kill-or-bury-alive.svg?branch=master)](https://travis-ci.org/mrkkrp/kill-or-bury-alive)
 
 Have you ever killed some buffer that you might want to left alive?
 Motivation for killing is usually “get out of my way for now”, and killing
