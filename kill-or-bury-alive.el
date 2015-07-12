@@ -126,11 +126,12 @@ automatically."
 BUFFER should be a buffer object.  Buffer designator can be a
 string (regexp to match name of buffer) or a symbol (major mode
 of buffer)."
-  (if (stringp buffer-designator)
-      (string-match-p buffer-designator
-                      (buffer-name buffer))
-    (with-current-buffer buffer
-      (eq major-mode buffer-designator))))
+  (when (get-buffer buffer)
+    (if (stringp buffer-designator)
+        (string-match-p buffer-designator
+                        (buffer-name buffer))
+      (with-current-buffer buffer
+        (eq major-mode buffer-designator)))))
 
 (defun kill-or-bury-alive--must-die-p (buffer)
   "Return non-NIL value when BUFFER must be killed no matter what."
@@ -214,12 +215,13 @@ When ARG is given and it's not NIL, ask to confirm killing of
 every buffer."
   (interactive "P")
   (dolist (buffer (buffer-list))
-    (unless (kill-or-bury-alive--long-lasting-p buffer)
-      (let ((buffer-name (buffer-name buffer)))
-        (when (and buffer-name
-                   arg
-                   (yes-or-no-p (format "Kill ‘%s’" buffer-name)))
-          (kill-or-bury-alive--kill-buffer buffer)))))
+    (let ((buffer-name (buffer-name buffer)))
+      (when (and buffer-name
+                 (not (kill-or-bury-alive--long-lasting-p buffer))
+                 (or (not arg)
+                     (yes-or-no-p
+                      (format "Kill ‘%s’" buffer-name))))
+        (kill-or-bury-alive--kill-buffer buffer))))
   (when kill-or-bury-alive-base-buffer
     (switch-to-buffer kill-or-bury-alive-base-buffer)
     (delete-other-windows)))
