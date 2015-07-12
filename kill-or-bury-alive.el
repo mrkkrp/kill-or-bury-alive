@@ -186,7 +186,11 @@ default."
   (interactive "P")
   (let ((buffer (current-buffer)))
     (if (or arg (kill-or-bury-alive--must-die-p buffer))
-        (kill-or-bury-alive--kill-buffer buffer)
+        (when (or (not (kill-or-bury-alive--long-lasting-p buffer))
+                  (yes-or-no-p
+                   (format "Buffer ‘%s’ is long lasting one, kill?"
+                           (buffer-name buffer))))
+          (kill-or-bury-alive--kill-buffer buffer))
       (kill-or-bury-alive--bury-buffer buffer))))
 
 ;;;###autoload
