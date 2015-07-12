@@ -45,7 +45,7 @@
 
 (require 'cl-lib)
 
-(defvar koba-must-die-list nil
+(defvar kill-or-bury-alive-must-die-list nil
   "List of buffer designators for buffers that always should be killed.
 
 Buffer designator can be a string (regexp to match name of
@@ -53,37 +53,37 @@ buffer) or a symbol (major mode of buffer).
 
 This variable is used by `kill-or-bury-alive' function.")
 
-(defvar koba-killing-function-alist nil
+(defvar kill-or-bury-alive-killing-function-alist nil
   "AList that maps buffer designators to functions that should kill them.
 
 Buffer designator can be a string (regexp to match name of
 buffer) or a symbol (major mode of buffer).
 
 This variable is used by `kill-or-bury-alive' and
-`koba-purge-buffers'.
+`kill-or-bury-alive-purge-buffers'.
 
-You can use `koba-kill-with' to add elements to this alist.")
+You can use `kill-or-bury-alive-kill-with' to add elements to this alist.")
 
-(defvar koba-long-lasting-list '("^\\*scratch\\*$")
+(defvar kill-or-bury-alive-long-lasting-list '("^\\*scratch\\*$")
   "List of buffer designators for buffers that should not be purged.
 
 Buffer designator can be a string (regexp to match name of
 buffer) or a symbol (major mode of buffer).
 
-This variable is used by `koba-purge-buffers'.")
+This variable is used by `kill-or-bury-alive-purge-buffers'.")
 
-(defvar koba-killing-function nil
+(defvar kill-or-bury-alive-killing-function nil
   "Default function for buffer killing.
 
 This is used when nothing is found in
-`koba-killing-function-alist'.
+`kill-or-bury-alive-killing-function-alist'.
 
 The function should be able to take one argument: buffer object
 to kill or its name.
 
 If value of the variable is NIL, `kill-buffer' is used.")
 
-(defvar koba-burying-function nil
+(defvar kill-or-bury-alive-burying-function nil
   "Function used by `kill-or-bury-alive' to bury a buffer.
 
 The function should be able to take one argument: buffer object
@@ -91,19 +91,19 @@ to bury or its name.
 
 If value of the variable is NIL, `bury-buffer' is used.")
 
-(defvar koba-base-buffer "*scratch*"
-  "Name of buffer to switch to after `koba-purge-buffers'.")
+(defvar kill-or-bury-alive-base-buffer "*scratch*"
+  "Name of buffer to switch to after `kill-or-bury-alive-purge-buffers'.")
 
 ;;;###autoload
-(defun koba-kill-with (buffer-designator killing-function)
+(defun kill-or-bury-alive-kill-with (buffer-designator killing-function)
   "Kill buffers selected by BUFFER-DESIGNATOR with KILLING-FUNCTION.
 
 Buffer designator can be a string (regexp to match name of
 buffer) or a symbol (major mode of buffer)."
   (push (cons buffer-designator killing-function)
-        koba-killing-function-alist))
+        kill-or-bury-alive-killing-function-alist))
 
-(defun koba--buffer-match (buffer buffer-designator)
+(defun kill-or-bury-alive--buffer-match (buffer buffer-designator)
   "Return non-NIL value if BUFFER matches BUFFER-DESIGNATOR.
 
 BUFFER should be a buffer object.  Buffer designator can be a
@@ -115,38 +115,38 @@ of buffer)."
     (with-current-buffer buffer
       (eq major-mode buffer-designator))))
 
-(defun koba--must-die-p (buffer)
+(defun kill-or-bury-alive--must-die-p (buffer)
   "Return non-NIL value when BUFFER must be killed no matter what."
-  (cl-some (apply-partially #'koba--buffer-match buffer)
-           koba-must-die-list))
+  (cl-some (apply-partially #'kill-or-bury-alive--buffer-match buffer)
+           kill-or-bury-alive-must-die-list))
 
-(defun koba--long-lasting-p (buffer)
+(defun kill-or-bury-alive--long-lasting-p (buffer)
   "Return non-NIL value when BUFFER is a long lasting one."
-  (cl-some (apply-partially #'koba--buffer-match buffer)
-           koba-long-lasting-list))
+  (cl-some (apply-partially #'kill-or-bury-alive--buffer-match buffer)
+           kill-or-bury-alive-long-lasting-list))
 
-(defun koba--kill-buffer (buffer)
+(defun kill-or-bury-alive--kill-buffer (buffer)
   "Kill buffer BUFFER according to killing preferences.
 
-Variable `koba-killing-function-alist' is used to find how to
+Variable `kill-or-bury-alive-killing-function-alist' is used to find how to
 kill BUFFER.  If nothing special is found,
-`koba-killing-function' is used."
+`kill-or-bury-alive-killing-function' is used."
   (funcall
    (or (cdr
         (cl-find-if
-         (apply-partially #'koba--buffer-match buffer)
-         koba-killing-function-alist
+         (apply-partially #'kill-or-bury-alive--buffer-match buffer)
+         kill-or-bury-alive-killing-function-alist
          :key #'car))
-       koba-killing-function
+       kill-or-bury-alive-killing-function
        #'kill-buffer)
    buffer))
 
-(defun koba--bury-buffer (buffer)
+(defun kill-or-bury-alive--bury-buffer (buffer)
   "Bury buffer BUFFER according to burying preferences.
 
-`koba-burying-function' is used to bury the buffer, see its
+`kill-or-bury-alive-burying-function' is used to bury the buffer, see its
 description for more information."
-  (funcall (or koba-burying-function
+  (funcall (or kill-or-bury-alive-burying-function
                (lambda (buffer) ; fixing peculiar logic of `bury-buffer'
                  (bury-buffer
                   (unless (eq (current-buffer) buffer)
@@ -160,32 +160,33 @@ description for more information."
 This is universal killing mechanism.  When argument ARG is given
 and it's not NIL, kill current buffer.  Otherwise behavior of
 this command varies.  If current buffer matches a buffer
-designator listed in `koba-must-die-list', kill it immediately,
-otherwise just bury it.
+designator listed in `kill-or-bury-alive-must-die-list', kill it
+immediately, otherwise just bury it.
 
 You can specify how to kill various kinds of buffers, see
-`koba-killing-function-alist' for more information.  Buffers are
-killed with `koba-killing-function' by default."
+`kill-or-bury-alive-killing-function-alist' for more information.
+Buffers are killed with `kill-or-bury-alive-killing-function' by
+default."
   (interactive "P")
   (let ((buffer (current-buffer)))
-    (if (or arg (koba--must-die-p buffer))
-        (koba--kill-buffer buffer)
-      (koba--bury-buffer buffer))))
+    (if (or arg (kill-or-bury-alive--must-die-p buffer))
+        (kill-or-bury-alive--kill-buffer buffer)
+      (kill-or-bury-alive--bury-buffer buffer))))
 
 ;;;###autoload
-(defun koba-purge-buffers ()
+(defun kill-or-bury-alive-purge-buffers ()
   "Kill all buffers except for long lasting ones.
 
-Long lasting buffers are specified in `koba-long-lasting-list'.
+Long lasting buffers are specified in `kill-or-bury-alive-long-lasting-list'.
 
-If `koba-base-buffer' is not NIL, switch to buffer with that name
-after purging and delete all other windows."
+If `kill-or-bury-alive-base-buffer' is not NIL, switch to buffer
+with that name after purging and delete all other windows."
   (interactive)
   (dolist (buffer (buffer-list))
-    (unless (koba--long-lasting-p buffer)
-      (koba--kill-buffer buffer)))
-  (when koba-base-buffer
-    (switch-to-buffer koba-base-buffer)
+    (unless (kill-or-bury-alive--long-lasting-p buffer)
+      (kill-or-bury-alive--kill-buffer buffer)))
+  (when kill-or-bury-alive-base-buffer
+    (switch-to-buffer kill-or-bury-alive-base-buffer)
     (delete-other-windows)))
 
 (provide 'kill-or-bury-alive)
