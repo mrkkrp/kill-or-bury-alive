@@ -93,7 +93,8 @@ If value of the variable is NIL, `kill-buffer' is used.")
 The function should be able to take one argument: buffer object
 to bury or its name.
 
-If value of the variable is NIL, `bury-buffer' is used.")
+If value of the variable is NIL,
+`kill-or-bury-alive--bury-buffer*' is used.")
 
 (defvar kill-or-bury-alive-base-buffer "*scratch*"
   "Name of buffer to switch to after `kill-or-bury-alive-purge-buffers'.")
