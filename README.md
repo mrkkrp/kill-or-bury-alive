@@ -17,7 +17,7 @@ with some buffer that has an associated process, for example.
 But sometimes you may want to get rid of most buffers and bring Emacs to
 some more or less virgin state. You probably don't want to kill scratch
 buffer and maybe ERC-related buffers too. You can specify which buffers to
-purge too.
+purge.
 
 ## Installation
 
@@ -185,7 +185,7 @@ used.
 ----
 
 ```
-kill-or-bury-alive-base-buffer ⇒ nil
+kill-or-bury-alive-base-buffer ⇒ "*scratch*"
 ```
 
 Name of buffer to switch to after `kill-or-bury-alive-purge-buffers`.

@@ -39,7 +39,7 @@
 ;; But sometimes you may want to get rid of most buffers and bring Emacs to
 ;; some more or less virgin state. You probably don't want to kill scratch
 ;; buffer and maybe ERC-related buffers too. You can specify which buffers
-;; to purge too.
+;; to purge.
 
 ;;; Code:
 
@@ -48,16 +48,16 @@
 (defvar kill-or-bury-alive-must-die-list nil
   "List of buffer designators for buffers that always should be killed.
 
-Buffer designator can be a string (regexp to match name of
-buffer) or a symbol (major mode of buffer).
+See description of `kill-or-bury-alive--buffer-match' for
+information about the concept of buffer designators.
 
 This variable is used by `kill-or-bury-alive' function.")
 
 (defvar kill-or-bury-alive-killing-function-alist nil
   "AList that maps buffer designators to functions that should kill them.
 
-Buffer designator can be a string (regexp to match name of
-buffer) or a symbol (major mode of buffer).
+See description of `kill-or-bury-alive--buffer-match' for
+information about the concept of buffer designators.
 
 This variable is used by `kill-or-bury-alive' and
 `kill-or-bury-alive-purge-buffers'.
@@ -71,8 +71,8 @@ You can use `kill-or-bury-alive-kill-with' to add elements to this alist.")
     erc-mode)
   "List of buffer designators for buffers that should not be purged.
 
-Buffer designator can be a string (regexp to match name of
-buffer) or a symbol (major mode of buffer).
+See description of `kill-or-bury-alive--buffer-match' for
+information about the concept of buffer designators.
 
 This variable is used by `kill-or-bury-alive-purge-buffers'.")
 
@@ -104,8 +104,8 @@ If value of the variable is NIL,
     (buffer-designator killing-function &optional simple)
   "Kill buffers selected by BUFFER-DESIGNATOR with KILLING-FUNCTION.
 
-Buffer designator can be a string (regexp to match name of
-buffer) or a symbol (major mode of buffer).
+See description of `kill-or-bury-alive--buffer-match' for
+information about the concept of buffer designators.
 
 Normally, KILLING-FUNCTION should be able to take one argument:
 buffer object.  However, you can use a function that operates on
