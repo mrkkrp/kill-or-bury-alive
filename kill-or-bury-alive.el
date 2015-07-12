@@ -95,12 +95,24 @@ If value of the variable is NIL, `bury-buffer' is used.")
   "Name of buffer to switch to after `kill-or-bury-alive-purge-buffers'.")
 
 ;;;###autoload
-(defun kill-or-bury-alive-kill-with (buffer-designator killing-function)
+(defun kill-or-bury-alive-kill-with
+    (buffer-designator killing-function &optional simple)
   "Kill buffers selected by BUFFER-DESIGNATOR with KILLING-FUNCTION.
 
 Buffer designator can be a string (regexp to match name of
-buffer) or a symbol (major mode of buffer)."
-  (push (cons buffer-designator killing-function)
+buffer) or a symbol (major mode of buffer).
+
+Normally, KILLING-FUNCTION should be able to take one argument:
+buffer object.  However, you can use a function that operates on
+current buffer and doesn't take any arguments.  Just pass non-NIL
+SIMPLE argument and KILLING-FUNCTION will be wrapped as needed
+automatically."
+  (push (cons buffer-designator
+              (if simple
+                  (lambda (buffer)
+                    (with-current-buffer buffer
+                      (funcall killing-function)))
+                killing-function))
         kill-or-bury-alive-killing-function-alist))
 
 (defun kill-or-bury-alive--buffer-match (buffer buffer-designator)
