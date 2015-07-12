@@ -157,16 +157,23 @@ kill BUFFER.  If nothing special is found,
        #'kill-buffer)
    buffer))
 
+(defun kill-or-bury-alive--bury-buffer* (buffer-or-name)
+  "This is rewrite of `bury-buffer' that works for any BUFFER-OR-NAME."
+  (let ((buffer (window-normalize-buffer buffer-or-name)))
+    (bury-buffer-internal buffer)
+    (when (eq buffer (window-buffer))
+      (unless (window--delete nil t)
+        (set-window-dedicated-p nil nil)
+        (switch-to-prev-buffer nil 'bury)))
+    nil))
+
 (defun kill-or-bury-alive--bury-buffer (buffer)
   "Bury buffer BUFFER according to burying preferences.
 
 `kill-or-bury-alive-burying-function' is used to bury the buffer, see its
 description for more information."
   (funcall (or kill-or-bury-alive-burying-function
-               (lambda (buffer) ; fixing peculiar logic of `bury-buffer'
-                 (bury-buffer
-                  (unless (eq (current-buffer) buffer)
-                    buffer))))
+               #'kill-or-bury-alive--bury-buffer*)
            buffer))
 
 ;;;###autoload
