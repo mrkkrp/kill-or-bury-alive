@@ -64,7 +64,11 @@ This variable is used by `kill-or-bury-alive' and
 
 You can use `kill-or-bury-alive-kill-with' to add elements to this alist.")
 
-(defvar kill-or-bury-alive-long-lasting-list '("^\\*scratch\\*$")
+;;;###autoload
+(defvar kill-or-bury-alive-long-lasting-list
+  '("^\\*scratch\\*$"
+    "^\\*Messages\\*$"
+    erc-mode)
   "List of buffer designators for buffers that should not be purged.
 
 Buffer designator can be a string (regexp to match name of
