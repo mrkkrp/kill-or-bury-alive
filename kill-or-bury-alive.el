@@ -194,17 +194,24 @@ default."
       (kill-or-bury-alive--bury-buffer buffer))))
 
 ;;;###autoload
-(defun kill-or-bury-alive-purge-buffers ()
+(defun kill-or-bury-alive-purge-buffers (&optional arg)
   "Kill all buffers except for long lasting ones.
 
 Long lasting buffers are specified in `kill-or-bury-alive-long-lasting-list'.
 
 If `kill-or-bury-alive-base-buffer' is not NIL, switch to buffer
-with that name after purging and delete all other windows."
-  (interactive)
+with that name after purging and delete all other windows.
+
+When ARG is given and it's not NIL, ask to confirm killing of
+every buffer."
+  (interactive "P")
   (dolist (buffer (buffer-list))
     (unless (kill-or-bury-alive--long-lasting-p buffer)
-      (kill-or-bury-alive--kill-buffer buffer)))
+      (let ((buffer-name (buffer-name buffer)))
+        (when (and buffer-name
+                   arg
+                   (yes-or-no-p (format "Kill ‘%s’" buffer-name)))
+          (kill-or-bury-alive--kill-buffer buffer)))))
   (when kill-or-bury-alive-base-buffer
     (switch-to-buffer kill-or-bury-alive-base-buffer)
     (delete-other-windows)))
