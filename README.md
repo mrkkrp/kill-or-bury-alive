@@ -1,6 +1,7 @@
 # Kill or Bury Alive
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
+[![MELPA](http://melpa.org/packages/kill-or-bury-alive-badge.svg)](http://melpa.org/#/kill-or-bury-alive)
 [![Build Status](https://travis-ci.org/mrkkrp/kill-or-bury-alive.svg?branch=master)](https://travis-ci.org/mrkkrp/kill-or-bury-alive)
 
 Have you ever killed some buffer that you might want to left alive?
@@ -23,6 +24,9 @@ purge.
 
 Download this package and place it somewhere, so Emacs can see it. Then put
 `(require 'kill-or-bury-alive)` into your configuration file. Done!
+
+To install the package via MELPA, execute: <kbd>M-x package-install RET
+kill-or-bury-alive RET</kbd>.
 
 ## Usage
 
