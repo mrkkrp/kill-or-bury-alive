@@ -45,6 +45,7 @@
 
 (require 'cl-lib)
 
+;;;###autoload
 (defvar kill-or-bury-alive-must-die-list nil
   "List of buffer designators for buffers that always should be killed.
 
@@ -53,6 +54,7 @@ information about the concept of buffer designators.
 
 This variable is used by `kill-or-bury-alive' function.")
 
+;;;###autoload
 (defvar kill-or-bury-alive-killing-function-alist nil
   "AList that maps buffer designators to functions that should kill them.
 
