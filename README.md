@@ -118,6 +118,9 @@ buffer.
 
 ## Customization
 
+This package can be customized via Emacs customization system. Type <kbd>M-x
+customize-group RET kill-or-bury-alive RET</kbd> to try it.
+
 There are quite a few variables that you can modify to control behavior of
 `kill-or-bury-alive` package. Let's list them (we list their default values
 too after ‘⇒’ character).

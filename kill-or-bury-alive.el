@@ -4,7 +4,7 @@
 ;;
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
 ;; URL: https://github.com/mrkkrp/kill-or-bury-alive
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Package-Requires: ((emacs "24.4") (cl-lib "0.5"))
 ;; Keywords: buffer, killing, convenience
 ;;
@@ -45,17 +45,27 @@
 
 (require 'cl-lib)
 
+(defgroup kill-or-bury-alive nil
+  "Precise control over buffer killing in Emacs."
+  :group 'convenience
+  :tag "Kill or Bury Alive"
+  :prefix "kill-or-bury-alive-")
+
 ;;;###autoload
-(defvar kill-or-bury-alive-must-die-list nil
+(defcustom kill-or-bury-alive-must-die-list nil
   "List of buffer designators for buffers that always should be killed.
 
 See description of `kill-or-bury-alive--buffer-match' for
 information about the concept of buffer designators.
 
-This variable is used by `kill-or-bury-alive' function.")
+This variable is used by `kill-or-bury-alive' function."
+  :tag "Must die list"
+  :type '(repeat :tag "Buffer Designators"
+                 (choice (regexp :tag "Buffer Name")
+                         (symbol :tag "Major Mode"))))
 
 ;;;###autoload
-(defvar kill-or-bury-alive-killing-function-alist nil
+(defcustom kill-or-bury-alive-killing-function-alist nil
   "AList that maps buffer designators to functions that should kill them.
 
 See description of `kill-or-bury-alive--buffer-match' for
@@ -64,10 +74,15 @@ information about the concept of buffer designators.
 This variable is used by `kill-or-bury-alive' and
 `kill-or-bury-alive-purge-buffers'.
 
-You can use `kill-or-bury-alive-kill-with' to add elements to this alist.")
+You can use `kill-or-bury-alive-kill-with' to add elements to this alist."
+  :tag "Killing function alist"
+  :type '(alist :key-type (choice :tag "Buffer Designator"
+                                  (regexp :tag "Buffer Name")
+                                  (symbol :tag "Major Mode"))
+                :value-type (function :tag "Killing Function")))
 
 ;;;###autoload
-(defvar kill-or-bury-alive-long-lasting-list
+(defcustom kill-or-bury-alive-long-lasting-list
   '("^\\*scratch\\*$"
     "^\\*Messages\\*$"
     erc-mode)
@@ -76,9 +91,13 @@ You can use `kill-or-bury-alive-kill-with' to add elements to this alist.")
 See description of `kill-or-bury-alive--buffer-match' for
 information about the concept of buffer designators.
 
-This variable is used by `kill-or-bury-alive-purge-buffers'.")
+This variable is used by `kill-or-bury-alive-purge-buffers'."
+  :tag "Long lasting list"
+  :type '(repeat :tag "Buffer Designators"
+                 (choice (regexp :tag "Buffer Name")
+                         (symbol :tag "Major Mode"))))
 
-(defvar kill-or-bury-alive-killing-function nil
+(defcustom kill-or-bury-alive-killing-function nil
   "Default function for buffer killing.
 
 This is used when nothing is found in
@@ -87,19 +106,27 @@ This is used when nothing is found in
 The function should be able to take one argument: buffer object
 to kill or its name.
 
-If value of the variable is NIL, `kill-buffer' is used.")
+If value of the variable is NIL, `kill-buffer' is used."
+  :tag "Killing function"
+  :type '(choice function
+                 (const :tag "Use Default" nil)))
 
-(defvar kill-or-bury-alive-burying-function nil
+(defcustom kill-or-bury-alive-burying-function nil
   "Function used by `kill-or-bury-alive' to bury a buffer.
 
 The function should be able to take one argument: buffer object
 to bury or its name.
 
 If value of the variable is NIL,
-`kill-or-bury-alive--bury-buffer*' is used.")
+`kill-or-bury-alive--bury-buffer*' is used."
+  :tag "Burying function"
+  :type '(choice function
+                 (const :tag "Use Default" nil)))
 
-(defvar kill-or-bury-alive-base-buffer "*scratch*"
-  "Name of buffer to switch to after `kill-or-bury-alive-purge-buffers'.")
+(defcustom kill-or-bury-alive-base-buffer "*scratch*"
+  "Name of buffer to switch to after `kill-or-bury-alive-purge-buffers'."
+  :tag "Base buffer"
+  :type 'string)
 
 ;;;###autoload
 (defun kill-or-bury-alive-kill-with
