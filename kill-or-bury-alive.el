@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; Have you ever killed some buffer that you might want to left alive?
+;; Have you ever killed some buffer that you might want to leave alive?
 ;; Motivation for killing is usually “get out of my way for now”, and
 ;; killing may be not the best choice in many cases unless your RAM is
 ;; very-very limited. This package allows to teach Emacs which buffers we
