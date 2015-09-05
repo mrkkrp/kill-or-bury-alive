@@ -47,9 +47,11 @@
 
 (defgroup kill-or-bury-alive nil
   "Precise control over buffer killing in Emacs."
-  :group 'convenience
-  :tag "Kill or Bury Alive"
-  :prefix "kill-or-bury-alive-")
+  :group  'convenience
+  :tag    "Kill or Bury Alive"
+  :prefix "kill-or-bury-alive-"
+  :link   '(url-link :tag "GitHub"
+                     "https://github.com/mrkkrp/kill-or-bury-alive"))
 
 ;;;###autoload
 (defcustom kill-or-bury-alive-must-die-list nil
