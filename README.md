@@ -62,7 +62,7 @@ buffers. In `kill-or-bury-alive` buffer designator is either:
   designator represents all buffers with matching names;
 
 * a symbol — major mode of buffer, this represents all buffers that have
-  such major mode.
+  such major mode and modes derived from it.
 
 That's it, pretty simple (and useful!).
 

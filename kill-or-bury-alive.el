@@ -162,7 +162,8 @@ of buffer)."
         (string-match-p buffer-designator
                         (buffer-name buffer))
       (with-current-buffer buffer
-        (eq major-mode buffer-designator)))))
+        (or (eq major-mode buffer-designator)
+            (derived-mode-p buffer-designator))))))
 
 (defun kill-or-bury-alive--must-die-p (buffer)
   "Return non-NIL value when BUFFER must be killed no matter what."
