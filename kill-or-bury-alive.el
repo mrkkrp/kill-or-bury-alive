@@ -87,6 +87,7 @@ You can use `kill-or-bury-alive-kill-with' to add elements to this alist."
 (defcustom kill-or-bury-alive-long-lasting-list
   '("^\\*scratch\\*$"
     "^\\*Messages\\*$"
+    "^\\*git-credential-cache--daemon\\*$"
     erc-mode)
   "List of buffer designators for buffers that should not be purged.
 
