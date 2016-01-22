@@ -4,7 +4,7 @@
 ;;
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
 ;; URL: https://github.com/mrkkrp/kill-or-bury-alive
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Package-Requires: ((emacs "24.4") (cl-lib "0.5"))
 ;; Keywords: buffer, killing, convenience
 ;;
