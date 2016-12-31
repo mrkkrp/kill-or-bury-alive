@@ -202,6 +202,6 @@ Name of buffer to switch to after `kill-or-bury-alive-purge-buffers`.
 
 ## License
 
-Copyright © 2015 Mark Karpov
+Copyright © 2015–2017 Mark Karpov
 
 Distributed under GNU GPL, version 3.
