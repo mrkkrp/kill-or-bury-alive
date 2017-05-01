@@ -33,13 +33,13 @@ kill-or-bury-alive RET</kbd>.
 All you need to do to start using the package is to bind two useful
 functions: `kill-or-bury-alive` and `kill-or-bury-alive-purge-buffers`.
 
-I've noticed that many people only ever want to kill current buffer, they
-even rebind <kbd>C-x k</kbd> to `kill-this-buffer`. This makes sense, it's
-natural for us to care about buffers that are visible and active. It's also
-intuitive to switch to some buffer before killing it. If you are into this
-sort of workflow, you can add something like this to your initialization
-file (if you want to preserve original `kill-buffer`, choose different key
-binding):
+I've noticed that many people only ever want to kill the current buffer,
+they even rebind <kbd>C-x k</kbd> to `kill-this-buffer`. This makes sense,
+it's natural for us to care about buffers that are visible and active. It's
+also intuitive to switch to some buffer before killing it. If you are into
+this sort of workflow, you can add something like this to your
+initialization file (if you want to preserve original `kill-buffer`, choose
+different key binding):
 
 ```emacs-lisp
 (global-set-key (kbd "C-x k") #'kill-or-bury-alive)
@@ -52,19 +52,17 @@ like, of course.
 
 ## API
 
-Before I describe the API, you need to know about a notion that this
-package uses: *buffer designator*.
+Before I describe the API, you need to know about a notion that this package
+uses: *buffer designator*.
 
-*Buffer designator* is something that can define particular sort of
-buffers. In `kill-or-bury-alive` buffer designator is either:
+*Buffer designator* is something that can define particular sort of buffers.
+In `kill-or-bury-alive` buffer designator is either:
 
 * a string — regular expression to match name of buffer, this sort of buffer
   designator represents all buffers with matching names;
 
 * a symbol — major mode of buffer, this represents all buffers that have
   such major mode and modes derived from it.
-
-That's it, pretty simple (and useful!).
 
 ----
 
@@ -118,7 +116,7 @@ buffer.
 
 ## Customization
 
-This package can be customized via Emacs customization system. Type <kbd>M-x
+This package can be customized via the customization system. Type <kbd>M-x
 customize-group RET kill-or-bury-alive RET</kbd> to try it.
 
 There are quite a few variables that you can modify to control behavior of
@@ -168,13 +166,13 @@ This variable is used by `kill-or-bury-alive-purge-buffers`.
 kill-or-bury-alive-killing-function ⇒ nil
 ```
 
-Default function for buffer killing.
+The default function for buffer killing.
 
 This is used when nothing is found in
 `kill-or-bury-alive-killing-function-alist`.
 
-The function should be able to take one argument: buffer object
-to kill or its name.
+The function should be able to take one argument: buffer object to kill or
+its name.
 
 If value of the variable is `nil`, `kill-buffer` is used.
 

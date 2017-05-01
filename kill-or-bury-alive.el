@@ -101,7 +101,7 @@ This variable is used by `kill-or-bury-alive-purge-buffers'."
                          (symbol :tag "Major Mode"))))
 
 (defcustom kill-or-bury-alive-killing-function nil
-  "Default function for buffer killing.
+  "The default function for buffer killing.
 
 This is used when nothing is found in
 `kill-or-bury-alive-killing-function-alist'.
@@ -205,15 +205,15 @@ kill BUFFER.  If nothing special is found,
 (defun kill-or-bury-alive--bury-buffer (buffer)
   "Bury buffer BUFFER according to burying preferences.
 
-`kill-or-bury-alive-burying-function' is used to bury the buffer, see its
-description for more information."
+`kill-or-bury-alive-burying-function' is used to bury the buffer,
+see its description for more information."
   (funcall (or kill-or-bury-alive-burying-function
                #'kill-or-bury-alive--bury-buffer*)
            buffer))
 
 ;;;###autoload
 (defun kill-or-bury-alive (&optional arg)
-  "Kill or bury current buffer.
+  "Kill or bury the current buffer.
 
 This is universal killing mechanism.  When argument ARG is given
 and it's not NIL, kill current buffer.  Otherwise behavior of
