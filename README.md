@@ -4,21 +4,19 @@
 [![MELPA](https://melpa.org/packages/kill-or-bury-alive-badge.svg)](https://melpa.org/#/kill-or-bury-alive)
 [![Build Status](https://travis-ci.org/mrkkrp/kill-or-bury-alive.svg?branch=master)](https://travis-ci.org/mrkkrp/kill-or-bury-alive)
 
-Have you ever killed some buffer that you might want to leave alive?
-Motivation for killing is usually “get out of my way for now”, and killing
-may be not the best choice in many cases unless your RAM is very-very
-limited. This package allows to teach Emacs which buffers we want to kill
-and which ones we prefer to bury alive.
+Have you ever killed a buffer that you might want to leave alive? Motivation
+for killing is usually “get out of my way for now”, and killing may be not
+the best choice in many cases unless your RAM is very-very limited. This
+package allows to teach Emacs which buffers to kill and which to bury alive.
 
 When we really want to kill a buffer, it turns out that not all buffers
 would like to die the same way. The package allows to specify *how* to kill
 various kinds of buffers. This may be especially useful when you're working
 with some buffer that has an associated process, for example.
 
-But sometimes you may want to get rid of most buffers and bring Emacs to
-some more or less virgin state. You probably don't want to kill scratch
-buffer and maybe ERC-related buffers too. You can specify which buffers to
-purge.
+Sometimes you may want to get rid of most buffers and bring Emacs to some
+more-or-less virgin state. You probably don't want to kill scratch buffer
+and maybe ERC-related buffers too. You can specify which buffers to purge.
 
 ## Installation
 
@@ -33,13 +31,13 @@ kill-or-bury-alive RET</kbd>.
 All you need to do to start using the package is to bind two useful
 functions: `kill-or-bury-alive` and `kill-or-bury-alive-purge-buffers`.
 
-I've noticed that many people only ever want to kill the current buffer,
-they even rebind <kbd>C-x k</kbd> to `kill-this-buffer`. This makes sense,
+I've noticed that many people only ever want to kill the current buffer.
+They even rebind <kbd>C-x k</kbd> to `kill-this-buffer`. This makes sense,
 it's natural for us to care about buffers that are visible and active. It's
 also intuitive to switch to some buffer before killing it. If you are into
 this sort of workflow, you can add something like this to your
-initialization file (if you want to preserve original `kill-buffer`, choose
-different key binding):
+initialization file (if you want to preserve the original `kill-buffer`,
+choose a different key binding):
 
 ```emacs-lisp
 (global-set-key (kbd "C-x k") #'kill-or-bury-alive)
@@ -55,14 +53,14 @@ like, of course.
 Before I describe the API, you need to know about a notion that this package
 uses: *buffer designator*.
 
-*Buffer designator* is something that can define particular sort of buffers.
-In `kill-or-bury-alive` buffer designator is either:
+*Buffer designator* is something that can define a particular kind of
+buffers. In `kill-or-bury-alive` buffer designator is either:
 
-* a string — regular expression to match name of buffer, this sort of buffer
+* a string—a regular expression to match name of buffer, this sort of buffer
   designator represents all buffers with matching names;
 
-* a symbol — major mode of buffer, this represents all buffers that have
-  such major mode and modes derived from it.
+* a symbol—major mode of buffer, this represents all buffers that have such
+  major mode and modes derived from it.
 
 ----
 
@@ -88,7 +86,7 @@ kill-or-bury-alive &optional arg
 
 Kill or bury current buffer.
 
-This is universal killing mechanism. When argument `arg` is given and it's
+This is a universal killing mechanism. When argument `arg` is given and it's
 not `nil`, kill current buffer. Otherwise behavior of this command varies.
 If current buffer matches a buffer designator listed in
 `kill-or-bury-alive-must-die-list`, kill it immediately, otherwise just bury
@@ -196,7 +194,7 @@ used.
 kill-or-bury-alive-base-buffer ⇒ "*scratch*"
 ```
 
-Name of buffer to switch to after `kill-or-bury-alive-purge-buffers`.
+Name of the buffer to switch to after `kill-or-bury-alive-purge-buffers`.
 
 ## License
 
