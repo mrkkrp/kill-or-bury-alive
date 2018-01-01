@@ -1,6 +1,6 @@
 ;;; kill-or-bury-alive.el --- Precise control over buffer killing in Emacs -*- lexical-binding: t; -*-
 ;;
-;; Copyright © 2015–2017 Mark Karpov <markkarpov92@gmail.com>
+;; Copyright © 2015–2018 Mark Karpov <markkarpov92@gmail.com>
 ;;
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/kill-or-bury-alive
