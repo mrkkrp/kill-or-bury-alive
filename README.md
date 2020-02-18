@@ -2,7 +2,7 @@
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![MELPA](https://melpa.org/packages/kill-or-bury-alive-badge.svg)](https://melpa.org/#/kill-or-bury-alive)
-[![Build Status](https://travis-ci.org/mrkkrp/kill-or-bury-alive.svg?branch=master)](https://travis-ci.org/mrkkrp/kill-or-bury-alive)
+[![CircleCI](https://circleci.com/gh/mrkkrp/kill-or-bury-alive/tree/master.svg?style=svg)](https://circleci.com/gh/mrkkrp/kill-or-bury-alive/tree/master)
 
 Have you ever killed a buffer that you might want to leave alive? Motivation
 for killing is usually “get out of my way for now”, and killing may be not
