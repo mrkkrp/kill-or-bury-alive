@@ -226,14 +226,15 @@ You can specify how to kill various kinds of buffers, see
 Buffers are killed with `kill-or-bury-alive-killing-function' by
 default."
   (interactive "P")
-  (let ((buffer (current-buffer)))
-    (if (or arg (kill-or-bury-alive--must-die-p buffer))
-        (when (or (not (kill-or-bury-alive--long-lasting-p buffer))
-                  (yes-or-no-p
-                   (format "Buffer ‘%s’ is a long lasting one, kill?"
-                           (buffer-name buffer))))
-          (kill-or-bury-alive--kill-buffer buffer))
-      (kill-or-bury-alive--bury-buffer buffer))))
+  (save-excursion
+    (let ((buffer (current-buffer)))
+      (if (or arg (kill-or-bury-alive--must-die-p buffer))
+          (when (or (not (kill-or-bury-alive--long-lasting-p buffer))
+                    (yes-or-no-p
+                     (format "Buffer ‘%s’ is a long lasting one, kill?"
+                             (buffer-name buffer))))
+            (kill-or-bury-alive--kill-buffer buffer))
+        (kill-or-bury-alive--bury-buffer buffer)))))
 
 ;;;###autoload
 (defun kill-or-bury-alive-purge-buffers (&optional arg)
