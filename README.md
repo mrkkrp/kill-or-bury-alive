@@ -5,62 +5,53 @@
 ![CI](https://github.com/mrkkrp/kill-or-bury-alive/workflows/CI/badge.svg?branch=master)
 
 Have you ever killed a buffer that you might want to leave alive? Motivation
-for killing is usually “get out of my way for now”, and killing may be not
-the best choice in many cases unless your RAM is very-very limited. This
-package allows to teach Emacs which buffers to kill and which to bury alive.
+for killing is usually “get out of my way,” and killing may be not the best
+choice in some cases. This package allows us to teach Emacs which buffers to
+kill and which to bury alive.
 
-When we really want to kill a buffer, it turns out that not all buffers
-would like to die the same way. The package allows to specify *how* to kill
-various kinds of buffers. This may be especially useful when you're working
-with some buffer that has an associated process, for example.
-
-Sometimes you may want to get rid of most buffers and bring Emacs to some
-more-or-less virgin state. You probably don't want to kill scratch buffer
-and maybe ERC-related buffers too. You can specify which buffers to purge.
+When we want to kill a buffer, it turns out that not all buffers would like
+to die in the same way. To help with that, the package allows us to specify
+*how* to kill different kinds of buffers. This may be especially useful when
+a buffer has an associated process.
 
 ## Installation
 
-Download this package and place it somewhere, so Emacs can see it. Then put
-`(require 'kill-or-bury-alive)` into your configuration file. Done!
+The package is available via MELPA, so you can just type `M-x
+package-install RET kill-or-bury-alive RET`.
 
-To install the package via MELPA, execute: <kbd>M-x package-install RET
-kill-or-bury-alive RET</kbd>.
+If you would like to install the package manually, download or clone it and
+put on Emacs' `load-path`. Then you can require it in your init file like
+this:
+
+```emacs-lisp
+(require 'kill-or-bury-alive)
+```
 
 ## Usage
 
-All you need to do to start using the package is to bind two useful
-functions: `kill-or-bury-alive` and `kill-or-bury-alive-purge-buffers`.
-
-I've noticed that many people only ever want to kill the current buffer.
-They even rebind <kbd>C-x k</kbd> to `kill-this-buffer`. This makes sense,
-it's natural for us to care about buffers that are visible and active. It's
-also intuitive to switch to some buffer before killing it. If you are into
-this sort of workflow, you can add something like this to your
-initialization file (if you want to preserve the original `kill-buffer`,
-choose a different key binding):
+I have noticed that people usually want to kill the current buffer. They
+even rebind `C-x k` to `kill-this-buffer`. This makes sense, it's natural
+for us to care about buffers that are visible and active. It's also
+intuitive to switch to some buffer before killing it. If you use this sort
+of workflow, you can add something like this to your initialization file:
 
 ```emacs-lisp
 (global-set-key (kbd "C-x k") #'kill-or-bury-alive)
 (global-set-key (kbd "C-c p") #'kill-or-bury-alive-purge-buffers)
 ```
 
-The second function purges all buffers (see description below). <kbd>C-c
-p</kbd> is just a key binding that I use myself, you can choose whatever you
-like, of course.
+The second function purges all buffers (see its description below). `C-c p`
+is just a key binding that I use myself, you can choose whatever you like,
+of course.
 
 ## API
 
-Before I describe the API, you need to know about a notion that this package
-uses: *buffer designator*.
+*Buffer designator* is something that can be used to match a particular kind
+of buffer. In `kill-or-bury-alive`, a buffer designator is either:
 
-*Buffer designator* is something that can define a particular kind of
-buffers. In `kill-or-bury-alive` buffer designator is either:
+* a string—a regular expression to match the name of a buffer;
 
-* a string—a regular expression to match name of buffer, this sort of buffer
-  designator represents all buffers with matching names;
-
-* a symbol—major mode of buffer, this represents all buffers that have such
-  major mode and modes derived from it.
+* a symbol—the major mode of a buffer.
 
 ----
 
@@ -68,11 +59,11 @@ buffers. In `kill-or-bury-alive` buffer designator is either:
 kill-or-bury-alive-kill-with buffer-designator killing-function &optional simple
 ```
 
-Kill buffers selected by `buffer-designator` with `killing-function`.
+Kill buffers selected by the `buffer-designator` with `killing-function`.
 
-Normally, `killing-function` should be able to take one argument: buffer
-object. However, you can use a function that operates on current buffer and
-doesn't take any arguments. Just pass non-`nil` `simple` argument and
+Normally, `killing-function` should be able to take one argument: a buffer
+object. However, you can use a function that operates on the current buffer
+and doesn't take any arguments. Just pass non-`nil` `simple` argument and
 `killing-function` will be wrapped as needed automatically.
 
 *This function should be used to configure the package, it cannot be called
@@ -84,11 +75,11 @@ interactively.*
 kill-or-bury-alive &optional arg
 ```
 
-Kill or bury current buffer.
+Kill or bury the current buffer.
 
-This is a universal killing mechanism. When argument `arg` is given and it's
-not `nil`, kill current buffer. Otherwise behavior of this command varies.
-If current buffer matches a buffer designator listed in
+This is a universal killing mechanism. When the argument `arg` is given and
+it's not `nil`, kill the current buffer. Otherwise the behavior of this
+command varies. If the current buffer matches a buffer designator listed in
 `kill-or-bury-alive-must-die-list`, kill it immediately, otherwise just bury
 it.
 
@@ -102,39 +93,39 @@ are killed with `kill-or-bury-alive-killing-function` by default.
 kill-or-bury-alive-purge-buffers &optional arg
 ```
 
-Kill all buffers except for long lasting ones.
+Kill all buffers except for the long lasting ones.
 
-Long lasting buffers are specified in `kill-or-bury-alive-long-lasting-list`.
+The long lasting buffers are specified in
+`kill-or-bury-alive-long-lasting-list`.
 
-If `kill-or-bury-alive-base-buffer` is not `nil`, switch to buffer with that
-name after purging and delete all other windows.
+If `kill-or-bury-alive-base-buffer` is not `nil`, switch to the buffer with
+that name after purging and delete all other windows.
 
 When `arg` is given and it's not `nil`, ask to confirm killing of every
 buffer.
 
 ## Customization
 
-This package can be customized via the customization system. Type <kbd>M-x
-customize-group RET kill-or-bury-alive RET</kbd> to try it.
+This package can be customized via the customization system. Type `M-x
+customize-group RET kill-or-bury-alive RET` to try it out.
 
-There are quite a few variables that you can modify to control behavior of
-`kill-or-bury-alive` package. Let's list them (we list their default values
-too after ‘⇒’ character).
-
-----
-
-```
-kill-or-bury-alive-must-die-list ⇒ nil
-```
-
-List of buffer designators for buffers that always should be killed.
-
-This variable is used by `kill-or-bury-alive` function.
+There are quite a few variables that you can modify to control behavior the
+package. Let's list them (we give their default values too).
 
 ----
 
 ```
-kill-or-bury-alive-killing-function-alist ⇒ nil
+kill-or-bury-alive-must-die-list => nil
+```
+
+A list of buffer designators for buffers that always should be killed.
+
+This variable is used by the `kill-or-bury-alive` function.
+
+----
+
+```
+kill-or-bury-alive-killing-function-alist => nil
 ```
 
 AList that maps buffer designators to functions that should kill them.
@@ -147,32 +138,32 @@ You can use `kill-or-bury-alive-kill-with` to add elements to this alist.
 ----
 
 ```
-kill-or-bury-alive-long-lasting-list ⇒
+kill-or-bury-alive-long-lasting-list =>
   ("^\\*scratch\\*$"
    "^\\*Messages\\*$"
    "^\\*git-credential-cache--daemon\\*$"
    erc-mode)
 ```
 
-List of buffer designators for buffers that should not be purged.
+A list of buffer designators for buffers that should not be purged.
 
 This variable is used by `kill-or-bury-alive-purge-buffers`.
 
 ----
 
 ```
-kill-or-bury-alive-killing-function ⇒ nil
+kill-or-bury-alive-killing-function => nil
 ```
 
 The default function for buffer killing.
 
-This is used when nothing is found in
+This function is used when nothing is found in
 `kill-or-bury-alive-killing-function-alist`.
 
 The function should be able to take one argument: buffer object to kill or
 its name.
 
-If value of the variable is `nil`, `kill-buffer` is used.
+If the value of the variable is `nil`, `kill-buffer` is used.
 
 ----
 
@@ -180,7 +171,7 @@ If value of the variable is `nil`, `kill-buffer` is used.
 kill-or-bury-alive-burying-function ⇒ nil
 ```
 
-Function used by `kill-or-bury-alive` to bury a buffer.
+The function used by `kill-or-bury-alive` to bury a buffer.
 
 The function should be able to take one argument: buffer object to bury or
 its name.
