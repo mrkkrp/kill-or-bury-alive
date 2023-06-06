@@ -1,12 +1,12 @@
-;;; kill-or-bury-alive.el --- Precise control over buffer killing in Emacs -*- lexical-binding: t; -*-
+;;; kill-or-bury-alive.el --- Precise control over buffer killing -*- lexical-binding: t; -*-
 ;;
 ;; Copyright © 2015–present Mark Karpov <markkarpov92@gmail.com>
 ;;
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/kill-or-bury-alive
 ;; Version: 0.1.3
-;; Package-Requires: ((emacs "24.4") (cl-lib "0.5"))
-;; Keywords: buffer, killing, convenience
+;; Package-Requires: ((emacs "24.4"))
+;; Keywords: convenience
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
