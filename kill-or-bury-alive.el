@@ -62,7 +62,7 @@ This variable is used by the `kill-or-bury-alive' function."
 
 ;;;###autoload
 (defcustom kill-or-bury-alive-killing-function-alist nil
-  "AList that maps buffer designators to functions that should kill them.
+  "An alist that maps buffer designators to functions that should kill them.
 
 See the description of `kill-or-bury-alive--buffer-match' for
 information about the concept of buffer designators.
@@ -101,10 +101,10 @@ This variable is used by `kill-or-bury-alive-purge-buffers'."
 This is used when nothing is found in
 `kill-or-bury-alive-killing-function-alist'.
 
-The function should be able to take one argument: buffer object
+The function should be able to take one argument: a buffer object
 to kill or its name.
 
-If value of the variable is NIL, `kill-buffer' is used."
+If the value of the variable is NIL, `kill-buffer' is used."
   :tag "Killing function"
   :type '(choice function
                  (const :tag "Use Default" nil)))
@@ -112,10 +112,10 @@ If value of the variable is NIL, `kill-buffer' is used."
 (defcustom kill-or-bury-alive-burying-function nil
   "The function used by `kill-or-bury-alive' to bury a buffer.
 
-The function should be able to take one argument: buffer object
+The function should be able to take one argument: a buffer object
 to bury or its name.
 
-If value of the variable is NIL,
+If the value of the variable is NIL,
 `kill-or-bury-alive--bury-buffer*' is used."
   :tag "Burying function"
   :type '(choice function
@@ -134,9 +134,9 @@ If value of the variable is NIL,
 See the description of `kill-or-bury-alive--buffer-match' for
 information about the concept of buffer designators.
 
-Normally, KILLING-FUNCTION should be able to take one argument:
+Normally, KILLING-FUNCTION should be able to take one argument: a
 buffer object.  However, you can use a function that operates on
-the current buffer and doesn't take any arguments.  Just pass
+the current buffer and doesn't take any arguments.  Just pass a
 non-NIL SIMPLE argument and KILLING-FUNCTION will be wrapped as
 needed automatically."
   (push (cons buffer-designator

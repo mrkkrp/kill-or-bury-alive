@@ -30,7 +30,7 @@ this:
 ## Usage
 
 I have noticed that people usually want to kill the current buffer. They
-even rebind `C-x k` to `kill-this-buffer`. This makes sense, it's natural
+even rebind `C-x k` to `kill-this-buffer`. This makes sense; it's natural
 for us to care about buffers that are visible and active. It's also
 intuitive to switch to some buffer before killing it. If you use this sort
 of workflow, you can add something like this to your initialization file:
@@ -63,7 +63,7 @@ Kill buffers selected by the `buffer-designator` with `killing-function`.
 
 Normally, `killing-function` should be able to take one argument: a buffer
 object. However, you can use a function that operates on the current buffer
-and doesn't take any arguments. Just pass non-`nil` `simple` argument and
+and doesn't take any arguments. Just pass a non-`nil` `simple` argument and
 `killing-function` will be wrapped as needed automatically.
 
 *This function should be used to configure the package, it cannot be called
@@ -109,8 +109,8 @@ buffer.
 This package can be customized via the customization system. Type `M-x
 customize-group RET kill-or-bury-alive RET` to try it out.
 
-There are quite a few variables that you can modify to control behavior the
-package. Let's list them (we give their default values too).
+There are quite a few variables that you can modify to control the behavior
+of the package. Let's list them (we give their default values too).
 
 ----
 
@@ -128,7 +128,7 @@ This variable is used by the `kill-or-bury-alive` function.
 kill-or-bury-alive-killing-function-alist => nil
 ```
 
-AList that maps buffer designators to functions that should kill them.
+An alist that maps buffer designators to functions that should kill them.
 
 This variable is used by `kill-or-bury-alive` and
 `kill-or-bury-alive-purge-buffers`.
@@ -160,7 +160,7 @@ The default function for buffer killing.
 This function is used when nothing is found in
 `kill-or-bury-alive-killing-function-alist`.
 
-The function should be able to take one argument: buffer object to kill or
+The function should be able to take one argument: a buffer object to kill or
 its name.
 
 If the value of the variable is `nil`, `kill-buffer` is used.
@@ -173,10 +173,10 @@ kill-or-bury-alive-burying-function ⇒ nil
 
 The function used by `kill-or-bury-alive` to bury a buffer.
 
-The function should be able to take one argument: buffer object to bury or
+The function should be able to take one argument: a buffer object to bury or
 its name.
 
-If value of the variable is `nil`, `kill-or-bury-alive--bury-buffer*` is
+If the value of the variable is `nil`, `kill-or-bury-alive--bury-buffer*` is
 used.
 
 ----
